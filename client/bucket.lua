@@ -24,6 +24,7 @@ function CancelPlacement()
 end
 
 function PlaceSpawnedObject(coords, object, slot, bait)
+    LocalPlayer.state.invHotkeys = false
     if lib.progressCircle({ duration = 2000, position = 'bottom', useWhileDead = false, canCancel = true,
         disable = { car = true } }) then
         FreezeEntityPosition(previewedObject, true)
@@ -35,8 +36,10 @@ function PlaceSpawnedObject(coords, object, slot, bait)
 
         previewedObject = nil
         HasAlreadyPlacedTable = true
+        LocalPlayer.state.invHotkeys = true
     else
         CancelPlacement()
+        LocalPlayer.state.invHotkeys = true
     end
 
 end

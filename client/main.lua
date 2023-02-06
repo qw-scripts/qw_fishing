@@ -241,22 +241,24 @@ AddStateBagChangeHandler('isBaitBucket', nil, function(bagName, _, value)
     local ent = GetEntityFromStateBagName(bagName)
     if ent == 0 or not value then return end
 
+    local entNetId = ObjToNet(ent)
+
     local options = {
         {
-            name = ("baitbucket:%s"):format(ObjToNet(ent)),
+            name = ("baitbucket:%s"):format(entNetId),
             event = 'qw_fishing:client:pickupBucket',
             icon = 'fa-solid fa-hand',
-            netId = ObjToNet(ent),
+            netId = entNetId,
             label = 'Pickup Bait Bucket',
             canInteract = function(_, distance)
                 return distance < 2.0
             end
         },
         {
-            name = ("getbait:%s"):format(ObjToNet(ent)),
+            name = ("getbait:%s"):format(entNetId),
             event = 'qw_fishing:client:grabBait',
             icon = 'fa-solid fa-hand',
-            netId = ObjToNet(ent),
+            netId = entNetId,
             label = 'Grab Some Bait',
             canInteract = function(_, distance)
                 return distance < 2.0
@@ -264,7 +266,7 @@ AddStateBagChangeHandler('isBaitBucket', nil, function(bagName, _, value)
         }
     }
 
-    exports.ox_target:addEntity(ObjToNet(ent), options)
+    exports.ox_target:addEntity(entNetId, options)
 end)
 
 exports.ox_inventory:displayMetadata('bait', 'Bait')

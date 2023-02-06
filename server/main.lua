@@ -2,10 +2,17 @@ local spawnedInBuckets = {}
 
 RegisterNetEvent('qw_fishing:server:pickupBaitBucket', function(data)
     local src = source
+    local ped = GetPlayerPed(src)
+
     local netId = data.netId
     local ent = NetworkGetEntityFromNetworkId(netId)
 
+
     if ent == 0 then return end
+
+    local distanceFromBucket = #(GetEntityCoords(ped) - GetEntityCoords(ent))
+
+    if distanceFromBucket > 2.0 then return end
 
     exports.ox_inventory:AddItem(src, 'bucket', 1, { ['bait'] = Entity(ent).state['bait'] })
     Wait(200)
@@ -24,6 +31,8 @@ end)
 
 RegisterNetEvent('qw_fishing:server:grabBaitFromBucket', function(data)
     local src = source
+    local ped = GetPlayerPed(src)
+
     local netId = data.netId
     local ent = NetworkGetEntityFromNetworkId(netId)
 
@@ -33,6 +42,10 @@ RegisterNetEvent('qw_fishing:server:grabBaitFromBucket', function(data)
 
     if bait <= 0 then return end
 
+    local distanceFromBucket = #(GetEntityCoords(ped) - GetEntityCoords(ent))
+
+    if distanceFromBucket > 2.0 then return end
+
     Entity(ent).state['bait'] = bait - 1
 
     exports.ox_inventory:AddItem(src, 'fishbait', 1)
@@ -40,8 +53,14 @@ end)
 
 RegisterNetEvent('qw_fishing:server:spawnNewBucket', function(coords, object, slot, bait)
     local src = source
+    local ped = GetPlayerPed(src)
+
+    local distanceFromBucket = #(GetEntityCoords(ped) - coords)
+
+    if distanceFromBucket > 2.0 then return end
+
     local obj = CreateObjectNoOffset(object, coords.x, coords.y, coords.z, true, false, false)
-    print(bait)
+
     local bucketBaitAmount = bait
 
     FreezeEntityPosition(obj, true)
