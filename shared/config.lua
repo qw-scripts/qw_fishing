@@ -15,6 +15,8 @@ Config.SellPed = {
 
 Config.BaitBucketStartingAmount = 10
 
+Config.ScullyEmotes = true
+
 Config.BaitBucketProp = 'prop_bucket_01a'
 
 Config.RodDegen = math.random(1, 10)

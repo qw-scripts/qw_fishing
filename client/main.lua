@@ -29,7 +29,13 @@ local function reelInFish(slot, durability)
                 type = 'success'
             })
             TriggerServerEvent('qw_fishing:server:giveFish', fish, slot, durability)
-            exports.scully_emotemenu:CancelAnimation()
+            if Config.ScullyEmotes then
+                exports.scully_emotemenu:CancelAnimation()
+            else
+                ClearPedTasks(PlayerPedId())
+                DeleteEntity('prop_fishing_rod_01')
+            end
+
             isFishing = false
         else
             lib.notify({
@@ -54,9 +60,17 @@ local function startFishing(slot, durability)
         })
         return
     end
-
-    exports.scully_emotemenu:PlayByCommand('fishing2')
-
+    if Config.ScullyEmotes then
+        exports.scully_emotemenu:PlayByCommand('fishing2')
+    else
+        local playerPos = GetEntityCoords(PlayerPedId())
+        TaskPlayAnim(PlayerPedId(), 'amb@world_human_stand_fishing@idle_a', 'idle_b', 2.0, 2.0, -1, 1, 0, false, false, false)
+        lib.requestModel('prop_fishing_rod_01', 1000)
+        local object = CreateObject(joaat('prop_fishing_rod_01'), playerPos.x, playerPos.y, playerPos.z + 0.2, true, true, true)
+        SetEntityCollision(object, false, false)
+        AttachEntityToEntity(object, PlayerPedId(), GetPedBoneIndex(PlayerPedId(), 60309), 0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000, true, true, false, true, 1, true)
+        SetModelAsNoLongerNeeded('prop_fishing_rod_01')
+    end
     isFishing = true
 
     local seconds = 0
@@ -153,7 +167,12 @@ local function createFishingZones()
             end,
             onExit = function()
                 inZone = false
-                exports.scully_emotemenu:CancelAnimation()
+                if Config.ScullyEmotes then
+                    exports.scully_emotemenu:CancelAnimation()
+                else
+                    ClearPedTasks(PlayerPedId())
+                    DeleteEntity('prop_fishing_rod_01')
+                end
             end,
         })
     end
