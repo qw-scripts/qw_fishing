@@ -17,4 +17,4 @@
 
 [https://www.youtube.com/watch?v=Az6Lqb5X90E&list=PLZMrb2RbC2T8Kt3Za3q9pVCNCFp8NM45j&index=8](https://www.youtube.com/watch?v=Az6Lqb5X90E&list=PLZMrb2RbC2T8Kt3Za3q9pVCNCFp8NM45j&index=8)
 
-This preview doesn't the selling part in it, but I was to lazy to remake the preview.
+This preview doesn't show the selling part in it, but I was to lazy to remake the preview.
