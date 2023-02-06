@@ -8,8 +8,8 @@ ItemsToAdd = {
     ['fishbait'] = {
         label = 'Fishing Bait',
         weight = 1000,
-        stack = false,
-        close = true
+        stack = true,
+        close = false
     },
     ['bucket'] = {
         label = 'Bait Bucket',
@@ -20,36 +20,36 @@ ItemsToAdd = {
     ['catfish'] = {
         label = 'Catfish',
         weight = 2000,
-        stack = false,
+        stack = true,
     },
     ['largemouthbass'] = {
         label = 'Large Mouth Bass',
         weight = 4000,
-        stack = false,
+        stack = true,
     },
     ['redfish'] = {
         label = 'Red Fish',
         weight = 3000,
-        stack = false,
+        stack = true,
     },
     ['salmon'] = {
         label = 'Salmon',
         weight = 3000,
-        stack = false,
+        stack = true,
     },
     ['stingray'] = {
         label = 'Sting Ray',
         weight = 3000,
-        stack = false,
+        stack = true,
     },
     ['stripedbass'] = {
         label = 'Striped Bass',
         weight = 3000,
-        stack = false,
+        stack = true,
     },
     ['whale'] = {
         label = 'Whale',
         weight = 10000,
-        stack = false,
+        stack = true,
     },
 }
