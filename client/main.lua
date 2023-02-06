@@ -87,6 +87,7 @@ RegisterNetEvent('qw_fishing:client:Fish', function(slot, durability)
 end)
 
 RegisterNetEvent('qw_fishing:client:placeBaitBucket', function(slot, bait)
+    if IsPlacingPreview then return end
     CreatePreviewedObject(Config.BaitBucketProp, true, slot, bait)
 end)
 

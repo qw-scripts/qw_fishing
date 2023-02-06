@@ -1,4 +1,4 @@
-local isPlacingPreview = false
+IsPlacingPreview = false
 local previewedObject = nil
 
 RegisterNetEvent('qw_fishing:client:pickupBucket', function(data)
@@ -18,17 +18,19 @@ RegisterNetEvent('qw_fishing:client:grabBait', function(data)
 end)
 
 function CancelPlacement()
-    isPlacingPreview = false
+    IsPlacingPreview = false
     DeleteObject(previewedObject)
     previewedObject = nil
+    lib.hideTextUI()
 end
 
 function PlaceSpawnedObject(coords, object, slot, bait)
     LocalPlayer.state.invHotkeys = false
+    lib.hideTextUI()
     if lib.progressCircle({ duration = 2000, position = 'bottom', useWhileDead = false, canCancel = true,
         disable = { car = true } }) then
         FreezeEntityPosition(previewedObject, true)
-        isPlacingPreview = false
+        IsPlacingPreview = false
 
         TriggerServerEvent('qw_fishing:server:spawnNewBucket', coords, object, slot, bait)
 
@@ -46,7 +48,7 @@ end
 
 function CreatePreviewedObject(model, hasDistanceCheck, slot, bait)
 
-    isPlacingPreview = true
+    IsPlacingPreview = true
     lib.requestModel(model)
 
     previewedObject = CreateObject(model, GetEntityCoords(cache.ped), true, true, false)
@@ -55,7 +57,9 @@ function CreatePreviewedObject(model, hasDistanceCheck, slot, bait)
     SetEntityCollision(previewedObject, false, false)
     FreezeEntityPosition(previewedObject, true)
 
-    while isPlacingPreview do
+    while IsPlacingPreview do
+        lib.showTextUI('[E] - Place Bucket \n [Q] - Cancel')
+
         local hit, _, coords, _, _ = lib.raycast.cam(1, 4)
 
         if hit then
