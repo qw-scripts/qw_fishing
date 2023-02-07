@@ -5,14 +5,14 @@ RegisterNetEvent('qw_fishing:client:pickupBucket', function(data)
     exports.ox_target:removeEntity(data.netId, { ("baitbucket:%s"):format(data.netId) })
     exports.ox_target:removeEntity(data.netId, { ("getbait:%s"):format(data.netId) })
     if lib.progressBar({ duration = 2000, label = 'Picking Up', useWhileDead = false, canCancel = true,
-        disable = { car = true } }) then
+            disable = { car = true } }) then
         TriggerServerEvent('qw_fishing:server:pickupBaitBucket', { netId = data.netId })
     end
 end)
 
 RegisterNetEvent('qw_fishing:client:grabBait', function(data)
     if lib.progressBar({ duration = 2000, label = 'Grabbing Bait', useWhileDead = false, canCancel = true,
-        disable = { car = true } }) then
+            disable = { car = true } }) then
         TriggerServerEvent('qw_fishing:server:grabBaitFromBucket', { netId = data.netId })
     end
 end)
@@ -28,7 +28,7 @@ function PlaceSpawnedObject(coords, object, slot, bait)
     LocalPlayer.state.invHotkeys = false
     lib.hideTextUI()
     if lib.progressCircle({ duration = 2000, position = 'bottom', useWhileDead = false, canCancel = true,
-        disable = { car = true } }) then
+            disable = { car = true } }) then
         FreezeEntityPosition(previewedObject, true)
         IsPlacingPreview = false
 
@@ -43,11 +43,9 @@ function PlaceSpawnedObject(coords, object, slot, bait)
         CancelPlacement()
         LocalPlayer.state.invHotkeys = true
     end
-
 end
 
 function CreatePreviewedObject(model, hasDistanceCheck, slot, bait)
-
     IsPlacingPreview = true
     lib.requestModel(model)
 
@@ -57,9 +55,8 @@ function CreatePreviewedObject(model, hasDistanceCheck, slot, bait)
     SetEntityCollision(previewedObject, false, false)
     FreezeEntityPosition(previewedObject, true)
 
+    lib.showTextUI('[E] - Place Bucket \n [Q] - Cancel')
     while IsPlacingPreview do
-        lib.showTextUI('[E] - Place Bucket \n [Q] - Cancel')
-
         local hit, _, coords, _, _ = lib.raycast.cam(1, 4)
 
         if hit then
