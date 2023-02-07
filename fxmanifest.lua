@@ -6,11 +6,12 @@ author 'qw-scripts'
 version '0.1.0'
 
 client_scripts {
-    'client/**/*'
+    'client/**/*',
 }
 
 server_scripts {
-    'server/**/*'
+    'server/**/*',
+    'addons/groups/server/**/*' -- COMMENT THIS OUT IF YOU ARE NOT USING GROUPS
 }
 
 shared_scripts {

@@ -52,7 +52,6 @@ local function reelInFish(slot, durability)
 end
 
 local function startFishing(slot, durability)
-
     if isFishing then return end
     local baitAmount = exports.ox_inventory:Search('count', 'fishbait')
 
@@ -102,7 +101,6 @@ local function startFishing(slot, durability)
             end
         end
     end)
-
 end
 
 RegisterNetEvent('qw_fishing:client:Fish', function(slot, durability)
@@ -153,16 +151,16 @@ RegisterNetEvent('qw_fishing:client:fillBaitBucket', function()
     end
 
     local askToFill = lib.alertDialog({
-        header = 'Fishing',
-        content = 'Are you sure you want to fill your buckets with bait? \n This will cost $' ..
+            header = 'Fishing',
+            content = 'Are you sure you want to fill your buckets with bait? \n This will cost $' ..
             Config.BaitPrice * bucketAmount .. '!',
-        centered = true,
-        cancel = true,
-        labels = {
-            cancel = 'No',
-            confirm = 'Purchase'
-        }
-    })
+            centered = true,
+            cancel = true,
+            labels = {
+                cancel = 'No',
+                confirm = 'Purchase'
+            }
+        })
 
     if askToFill == 'confirm' then
         TriggerServerEvent('qw_fishing:server:fillBaitBucket', Config.BaitPrice * bucketAmount)
@@ -174,30 +172,29 @@ local function createFishingZones()
         local zone = Config.FishingPoints[i]
 
         PZones[#PZones + 1] = lib.zones.poly({
-            points = zone,
-            thickness = 2,
-            debug = Config.Debug,
-            inside = function()
-                inZone = true
-            end,
-            onEnter = function()
-                inZone = true
-            end,
-            onExit = function()
-                inZone = false
-                if Config.ScullyEmotes then
-                    exports.scully_emotemenu:CancelAnimation()
-                else
-                    ClearPedTasks(cache.ped)
-                    DeleteObject(fishingRod)
-                end
-            end,
-        })
+                points = zone,
+                thickness = 2,
+                debug = Config.Debug,
+                inside = function()
+                    inZone = true
+                end,
+                onEnter = function()
+                    inZone = true
+                end,
+                onExit = function()
+                    inZone = false
+                    if Config.ScullyEmotes then
+                        exports.scully_emotemenu:CancelAnimation()
+                    else
+                        ClearPedTasks(cache.ped)
+                        DeleteObject(fishingRod)
+                    end
+                end,
+            })
     end
 end
 
 local function SpawnShopPed()
-
     if pedSpawned then return end
     local model = joaat(Config.ShopPed.model)
 
@@ -233,26 +230,62 @@ local function SpawnSellPed()
     SetEntityInvincible(ped, true)
     SetBlockingOfNonTemporaryEvents(ped, true)
 
-    exports.ox_target:addLocalEntity(spawnedSellPed, {
-        {
-            name = 'fishing:sellfish',
-            label = 'Sell Fish',
-            icon = 'fa-solid fa-fish',
-            event = 'qw_fishing:client:sellFish',
-            canInteract = function(_, distance)
-                return distance < 2.0
-            end
-        },
-        {
-            name = 'fishing:fillbaitbucket',
-            label = 'Fill Bait Bucket',
-            icon = 'fa-solid fa-fish',
-            event = 'qw_fishing:client:fillBaitBucket',
-            canInteract = function(_, distance)
-                return distance < 2.0
-            end
+    local options = {}
+
+    if Config.UseGroups then
+        options = {
+            {
+                name = 'fishing:sellfish',
+                label = 'Sell Fish',
+                icon = 'fa-solid fa-fish',
+                event = 'qw_fishing:client:sellFish',
+                canInteract = function(_, distance)
+                    return distance < 2.0
+                end
+            },
+            {
+                name = 'fishing:fillbaitbucket',
+                label = 'Fill Bait Bucket',
+                icon = 'fa-solid fa-fish',
+                event = 'qw_fishing:client:fillBaitBucket',
+                canInteract = function(_, distance)
+                    return distance < 2.0
+                end
+            },
+            {
+                name = 'fishing:startGroupFish',
+                label = 'Start/Stop Group Fish',
+                icon = 'fa-solid fa-user-group',
+                serverEvent = 'qw_fishing:groups:startGroupFishing',
+                canInteract = function(_, distance)
+                    return distance < 2.0
+                end
+            }
         }
-    })
+    else
+        options = {
+            {
+                name = 'fishing:sellfish',
+                label = 'Sell Fish',
+                icon = 'fa-solid fa-fish',
+                event = 'qw_fishing:client:sellFish',
+                canInteract = function(_, distance)
+                    return distance < 2.0
+                end
+            },
+            {
+                name = 'fishing:fillbaitbucket',
+                label = 'Fill Bait Bucket',
+                icon = 'fa-solid fa-fish',
+                event = 'qw_fishing:client:fillBaitBucket',
+                canInteract = function(_, distance)
+                    return distance < 2.0
+                end
+            },
+        }
+    end
+
+    exports.ox_target:addLocalEntity(spawnedSellPed, options)
 
     sellPedSpawned = true
 end

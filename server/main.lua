@@ -75,7 +75,6 @@ RegisterNetEvent('qw_fishing:server:spawnNewBucket', function(coords, object, sl
 end)
 
 RegisterNetEvent('qw_fishing:server:giveFish', function(fish, slot, durability)
-
     local src = source
     local quality = math.ceil(math.random() * 100)
     local qualIndentifier = nil
@@ -90,6 +89,10 @@ RegisterNetEvent('qw_fishing:server:giveFish', function(fish, slot, durability)
         exports.ox_inventory:AddItem(src, fish.name, 1, { ['fish_quality'] = qualIndentifier })
         exports.ox_inventory:RemoveItem(src, 'fishbait', 1)
         exports.ox_inventory:SetDurability(src, slot, durability - Config.RodDegen)
+    end
+
+    if Config.UseGroups then
+        TriggerEvent('qw_fishing:groups:bumpFishingTask', exports['qb-phone']:GetGroupByMembers(src))
     end
 end)
 
@@ -106,7 +109,7 @@ RegisterNetEvent('qw_fishing:server:sellFish', function() -- TODO: re-write this
                 local payment = k * item
                 paymentTotal = paymentTotal + payment
 
-                itemsToRemove[#itemsToRemove + 1] = { ['name'] = fish.name, ['count'] = item }
+                itemsToRemove[#itemsToRemove + 1] = { ['name'] = fish.name,['count'] = item }
             end
         end
     end

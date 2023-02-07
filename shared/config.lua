@@ -1,16 +1,17 @@
 Config = {}
 
 Config.Debug = false
+Config.UseGroups = true
 
 Config.ShopPed = {
     model = 's_m_m_ammucountry',
-    coords = vec4(-1694.91, -1057.22, 13.02, 227.1)
+    coords = vec4( -1694.91, -1057.22, 13.02, 227.1)
 }
 
 
 Config.SellPed = {
     model = 's_m_m_ammucountry',
-    coords = vec4(-1702.2, -1090.26, 13.15, 35.04)
+    coords = vec4( -1702.2, -1090.26, 13.15, 35.04)
 }
 
 Config.BaitBucketStartingAmount = 10
@@ -19,22 +20,24 @@ Config.ScullyEmotes = false
 
 Config.BaitBucketProp = 'prop_bucket_01a'
 
+Config.TotalFishToCatchForGroup = 10
+
 Config.RodDegen = math.random(1, 10)
 
 Config.BaitPrice = 30
 
 Config.FishingPoints = {
     [1] = {
-        vec(-1742.37, -1103.44, 13.02),
-        vec(-1739.87, -1104.72, 13.02),
-        vec(-1765.49, -1136.07, 13.02),
-        vec(-1767.49, -1133.5, 13.02),
+        vec( -1742.37, -1103.44, 13.02),
+        vec( -1739.87, -1104.72, 13.02),
+        vec( -1765.49, -1136.07, 13.02),
+        vec( -1767.49, -1133.5, 13.02),
     },
     [2] = {
-        vec(-1735.55, -1122.92, 13.02),
-        vec(-1737.49, -1121.08, 13.14),
-        vec(-1794.03, -1188.39, 13.02),
-        vec(-1792.21, -1190.24, 13.02)
+        vec( -1735.55, -1122.92, 13.02),
+        vec( -1737.49, -1121.08, 13.14),
+        vec( -1794.03, -1188.39, 13.02),
+        vec( -1792.21, -1190.24, 13.02)
     }
 }
 
