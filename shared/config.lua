@@ -15,7 +15,7 @@ Config.SellPed = {
 
 Config.BaitBucketStartingAmount = 10
 
-Config.ScullyEmotes = true
+Config.ScullyEmotes = false
 
 Config.BaitBucketProp = 'prop_bucket_01a'
 

@@ -11,6 +11,10 @@ local PZones = {}
 
 local isFishing = false
 
+local fishingRod = nil
+local rodModel = "prop_fishing_rod_01"
+local rodHash = `prop_fishing_rod_01`
+
 local function reelInFish(slot, durability)
     local fish = Config.FishingLoot[math.random(1, #Config.FishingLoot)]
     local chanceToCatch = math.random(1, 100)
@@ -32,8 +36,8 @@ local function reelInFish(slot, durability)
             if Config.ScullyEmotes then
                 exports.scully_emotemenu:CancelAnimation()
             else
-                ClearPedTasks(PlayerPedId())
-                DeleteEntity('prop_fishing_rod_01')
+                ClearPedTasks(cache.ped)
+                DeleteObject(fishingRod)
             end
 
             isFishing = false
@@ -63,12 +67,26 @@ local function startFishing(slot, durability)
     if Config.ScullyEmotes then
         exports.scully_emotemenu:PlayByCommand('fishing2')
     else
-        local playerPos = GetEntityCoords(PlayerPedId())
-        TaskPlayAnim(PlayerPedId(), 'amb@world_human_stand_fishing@idle_a', 'idle_b', 2.0, 2.0, -1, 1, 0, false, false, false)
-        lib.requestModel('prop_fishing_rod_01', 1000)
-        local object = CreateObject(joaat('prop_fishing_rod_01'), playerPos.x, playerPos.y, playerPos.z + 0.2, true, true, true)
-        SetEntityCollision(object, false, false)
-        AttachEntityToEntity(object, PlayerPedId(), GetPedBoneIndex(PlayerPedId(), 60309), 0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000, true, true, false, true, 1, true)
+        local ped = cache.ped
+
+        local playerPos = GetEntityCoords(ped)
+        local bone = GetPedBoneIndex(ped, 60309)
+
+        lib.requestModel(rodModel)
+        lib.requestAnimDict('amb@world_human_stand_fishing@idle_a')
+
+        if fishingRod then
+            DeleteObject(fishingRod)
+            fishingRod = nil
+        end
+
+        fishingRod = CreateObject(rodHash, 1.0, 1.0, 1.0, 1, 1, 0)
+        ClearPedTasksImmediately(ped)
+
+        AttachEntityToEntity(fishingRod, ped, bone, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 2, 1)
+        Wait(0)
+        TaskPlayAnim(ped, "amb@world_human_stand_fishing@idle_a", "idle_c", 20.0, -8, -1, 17, 0, 0, 0, 0)
+
         SetModelAsNoLongerNeeded('prop_fishing_rod_01')
     end
     isFishing = true
@@ -170,8 +188,8 @@ local function createFishingZones()
                 if Config.ScullyEmotes then
                     exports.scully_emotemenu:CancelAnimation()
                 else
-                    ClearPedTasks(PlayerPedId())
-                    DeleteEntity('prop_fishing_rod_01')
+                    ClearPedTasks(cache.ped)
+                    DeleteObject(fishingRod)
                 end
             end,
         })
