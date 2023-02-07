@@ -1,14 +1,5 @@
 local FishingGroups = {}
 
-lib.callback.register('qw_fishing:groups:getFishingGroupStatus', function(source)
-    local src = source
-    local group = exports['qb-phone']:GetGroupByMembers(src)
-
-    if FishingGroups[group] then return true end
-
-    return false
-end)
-
 RegisterNetEvent('qw_fishing:groups:startGroupFishing', function()
     local src = source
     local group = exports['qb-phone']:GetGroupByMembers(src)
