@@ -7,6 +7,10 @@
 - [ox_inventory](https://github.com/overextended/ox_inventory)
 - OneSync Infinity
 
+## Optional Dependencies
+
+- [renewed phone](https://github.com/Renewed-Scripts/qb-phone) - for group fishing
+
 ## Installation
 
 - Drop resource into your server directory and add `ensure qw_fishing` to your `server.cfg` (This needs to start after all of the above dependencies)
