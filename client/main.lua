@@ -347,7 +347,8 @@ AddStateBagChangeHandler('isLoggedIn', nil, function(_, _, value)
     FullyLoaded = value
 end)
 
-RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
+RegisterNetEvent('esx:playerLoaded')
+AddEventHandler('esx:playerLoaded', function(xPlayer, isNew)
     Wait(100)
     SpawnShopPed()
     SpawnSellPed()
@@ -356,8 +357,9 @@ RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
     exports.ox_inventory:displayMetadata('fish_quality', 'Quality')
 end)
 
-RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()
-    deletePeds()
+RegisterNetEvent('esx:playerLogout')
+AddEventHandler('esx:playerLogout', function()
+	deletePeds()
     removePolyZone()
 end)
 
